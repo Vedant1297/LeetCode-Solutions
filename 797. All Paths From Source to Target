@@ -1,0 +1,37 @@
+Link: https://leetcode.com/problems/all-paths-from-source-to-target/
+
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>& g,vector <vector <int> > &ans,vector <int> &tmp,vector <bool> &v,int i,int target)
+    {
+        if(i>target || v[i])
+            return;
+        v[i]=true;
+        tmp.push_back(i);
+        if(i==target)
+        {
+            ans.push_back(tmp);
+            tmp.pop_back();
+            v[i]=false;
+            return;
+        }
+        for(int j=0;j<g[i].size();j++)
+        {
+            if(!v[g[i][j]])
+             dfs(g,ans,tmp,v,g[i][j],target);
+        }
+        v[i]=false;
+        tmp.pop_back();
+        
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& g) 
+    {
+        vector <vector <int> > ans;
+        vector <int> tmp;
+        int n=g.size();
+        vector <bool> v(n,0);
+        dfs(g,ans,tmp,v,0,n-1);
+        return ans;
+    }
+};
